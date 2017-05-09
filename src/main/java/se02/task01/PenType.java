@@ -1,0 +1,5 @@
+package se02.task01;
+
+public enum PenType {
+    BALLPOINT, ROLLERBALL, FOUNTAIN, MARKER, DIP, INKBRUSH, QUILL, REED, SPACE, RULING, GEL
+}
