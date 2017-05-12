@@ -1,7 +1,7 @@
 package se02.task06;
 
 public class Main {
-    public static boolean nuclearStrikeAsked;
+    public static boolean launchANuclearWeaponAsked;
     public static boolean nuclerWarBegan;
 
     public static void main(String[] args) {
