@@ -13,7 +13,7 @@ public class Student {
     }
 
     public void setGroup(Group group) {
-        if (this.groups.size() <= 5) {
+        if (this.groups.size() <= Subject.values().length) {
             groups.add(group);
         }
     }

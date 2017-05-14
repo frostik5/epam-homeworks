@@ -9,13 +9,16 @@ import java.util.*;
  */
 public class Main {
     private static List<Group> groups;
-    private static Set<Student> students;
+    private static List<Student> students;
 
     /**
-     *  Won't work for groupsPerSubject > 1 for now. So each subject has only 1 group with it's unique students.
+     *  Won't work for groupsPerSubject > 1 for now. So each subject has only 1 group with its unique students.
      */
     public static void main(String[] args) {
         createGroups(100);
+        printAllStudentsInGroups();
+        //printAllStudentMarks();
+        findStudent1InGroups();
     }
 
     private static void createGroups(int totalStudents) {
@@ -25,44 +28,54 @@ public class Main {
         }
 
         createStudents(totalStudents);
-        addStudentsToGroups();
-
-        for (Group group: groups) {
-            System.out.println("---ID " + group.getGroupID() + ": " + group.getSubject() + "---");
-            for (Student student: group.getStudentsAndMarks().keySet()) {
-                System.out.println("Студент: " + student.getStudentID() + ", список оценок:");
-                Iterator<Map.Entry<Student, List<Mark>>> entries = group.getStudentsAndMarks().entrySet().iterator();
-                while (entries.hasNext()) {
-
-                }
-                for (List mark: group.getStudentsAndMarks().values()) {
-                    //System.out.println(mark.get);
-                }
-                System.out.println();
-
-                //for (int i = 0; i < group.getStudentsAndMarks().values().size(); i++) {
-                //    System.out.println(i + ") " + group.getStudentsAndMarks().values();
-                //}
-            }
-        }
     }
 
     private static void createStudents(int totalStudents) {
-        students = new HashSet<>(totalStudents);
         Random r = new Random();
+        students = new ArrayList<>(totalStudents);
         for (int i = 0; i < totalStudents; i++) {
-            students.add(new Student(r.nextInt(totalStudents) + 1));
+            students.add(new Student(i + 1));
+        }
+
+        for (Group group: groups) {
+            for (int i = 0; i < r.nextInt(Group.GROUP_CAPACITY) + 10; i++) {
+                group.addStudent(students.get(r.nextInt(totalStudents)));
+            }
         }
     }
 
-    private static void addStudentsToGroups() {
+    private static void printAllStudentsInGroups() {
         for (Group group: groups) {
-            for (Student student: students) {
-                if (!group.isFull()) {
-                    group.addStudent(student);
+            System.out.println("---ID " + group.getGroupID() + ": " + group.getSubject() + "---");
+            for (Map.Entry<Student, List<Mark>> studentsAndMarks : group.getStudentsAndMarks().entrySet()) {
+                System.out.println("Студент: " + studentsAndMarks.getKey().getStudentID());
+            }
+        }
+    }
+
+    private static void printAllStudentMarks() {
+        for (Group group: groups) {
+            System.out.println("---ID " + group.getGroupID() + ": " + group.getSubject() + "---");
+            for (Map.Entry<Student, List<Mark>> studentsAndMarks: group.getStudentsAndMarks().entrySet()) {
+                System.out.println("Студент: " + studentsAndMarks.getKey().getStudentID()/* + ", список оценок:"*/);
+                for (int i = 0; i < Group.TOTAL_MARKS; i++) {
+                    if (studentsAndMarks.getValue().get(i).getMarkType() instanceof  Integer) {
+                        System.out.println(studentsAndMarks.getValue().get(i).getIntegerMark());
+                    } else {
+                        System.out.printf("%.2f\n", studentsAndMarks.getValue().get(i).getDoubleMark());
+                    }
                 }
             }
         }
+    }
+
+    private static void findStudent1InGroups() {
+        System.out.println("\nСтудент " + groups.get(0).getStudents().get(0).getStudentID() + " входит в следующие группы:");
+        for (Group group: groups.get(0).getStudents().get(0).getGroups()) {
+            System.out.println(group.getSubject());
+        }
+
+
     }
 }
 

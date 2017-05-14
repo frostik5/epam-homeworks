@@ -16,12 +16,20 @@ public class Group {
     }
 
     public void addStudent(Student student) {
-        Random r = new Random();
+        Random r = new Random(), intOrDouble = new Random();
         List<Mark> marks = new ArrayList<>(TOTAL_MARKS);
-        for (int i = 0; i < TOTAL_MARKS; i++) {
-            marks.add(new Mark<>(r.nextInt(5) + 1));
+
+        if (intOrDouble.nextBoolean()) {
+            for(int i = 0; i < TOTAL_MARKS; i++) {
+                marks.add(new Mark<>(r.nextInt(4) + 2));
+            }
+        } else {
+            for (int i = 0; i < TOTAL_MARKS; i++) {
+                marks.add(new Mark<>(2 + Math.random() * 3));
+            }
         }
         studentsAndMarks.put(student, marks);
+        student.setGroup(this);
     }
 
     public boolean isFull() {
