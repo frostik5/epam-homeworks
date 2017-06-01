@@ -65,5 +65,6 @@ public class CrazyLogger {
             os.write(newLine.getBytes());
         }
         os.flush();
+        os.close();
     }
 }
