@@ -16,16 +16,16 @@ public class HTMLParser {
     public static void main(String[] args) throws Exception {
         String file = readFile();
         //System.out.println(file);
-        List<Integer> figureLinks = findAllPictureWords(file);
+        List<Integer> figureLinks = findAllFigureWords(file);
         checkIfFigureLinksAresSequential(figureLinks);
-        //findAllSentencesWithFigureWords(file);
+        findAllSentencesWithFigureWords(file);
     }
 
-    private static List<Integer> findAllPictureWords(String file) {
+    private static List<Integer> findAllFigureWords(String file) {
         /**
          * It's got to be links only though, not Figures themselves. The problem is there are no difference in HTML tags for strings with links and under-figure strings.
          * Usual text should't be aligned to middle, unlike under-figure-text...
-         * Or it could be possible to count links, if usual text blocks (<div>) would be in serial order with under-figure-text blocks, which is not the case here again.
+         * Or it could be possible to count links, if usual text blocks (<div>) would be sequential to under-figure-text blocks, which is not the case here again.
          */
         String regEx = "[Рр]ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?";
         Pattern pattern = Pattern.compile(regEx);
@@ -51,18 +51,19 @@ public class HTMLParser {
         System.out.println("The figure links are sequential!");
     }
 
-    private static List<String> findAllSentencesWithFigureWords(String file) {
-        String regEx = "";
+    private static void findAllSentencesWithFigureWords(String file) {  // Not working correctly at the moment
+        String regEx = "[А-Я][^\\.?]*([Рр]ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?)-?[а-д]?,?[а-д]?\\)?[^\\.?]*([Рр]?ис?[унк]*.?\\s*(\\d{1,2})?,?\\s?и?\\s?(\\d{1,2})?)[.?]";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(file);
 
-        List<String> stringsWithPictureWords = new ArrayList<>();
+        List<String> stringsWithFigureWords = new ArrayList<>();
         while(matcher.find()) {
-            if (matcher.group() != null) { stringsWithPictureWords.add(matcher.group()); }
+            if (matcher.group() != null) { stringsWithFigureWords.add(matcher.group()); }
         }
-        System.out.println(stringsWithPictureWords);
 
-        return stringsWithPictureWords;
+        for (String stringsWithFigureWord : stringsWithFigureWords) {
+            System.out.println(stringsWithFigureWord);
+        }
     }
 
     private static String readFile() {
