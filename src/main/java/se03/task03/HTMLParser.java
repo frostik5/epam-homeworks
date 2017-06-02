@@ -21,6 +21,7 @@ public class HTMLParser {
         findAllSentencesWithFigureWords(file);
     }
 
+    // [Рр]ис[унк]*.?\s*(\d{1,2}),?\s?и?\s?(\d{1,2})
     private static List<Integer> findAllFigureWords(String file) {
         /**
          * It's got to be links only though, not Figures themselves. The problem is there are no difference in HTML tags for strings with links and under-figure strings.
@@ -51,8 +52,19 @@ public class HTMLParser {
         System.out.println("The figure links are sequential!");
     }
 
-    private static void findAllSentencesWithFigureWords(String file) {  // Not working correctly at the moment
-        String regEx = "[А-Я][^\\.?]*([Рр]ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?)-?[а-д]?,?[а-д]?\\)?[^\\.?]*([Рр]?ис?[унк]*.?\\s*(\\d{1,2})?,?\\s?и?\\s?(\\d{1,2})?)[.?]";
+    // [А-Я][^.?!]*([Рр]?ис[унк]*.?\s*(\d{1,2}),?\s?и?\s?(\d{1,2})?)\)?[^.?!(]*\(?([Рр]ис[унк]*.?\s*(\d{1,2}),?\s?и?\s?(\d{1,2})?)?\)?[^(.?!]*\(?([Рр]ис[унк]*.?\s*(\d{1,2}),?\s?и?\s?(\d{1,2})?)?\)?[^.?!]*[.!?]
+    private static void findAllSentencesWithFigureWords(String file) {
+        /**
+         * Seems to be working fine, except when meets "э.д.с." string
+         */
+        String regEx =
+                "[А-Я][^.?!]*" +
+                "([Рр]?ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?)\\)?" +  //Required Figure link
+                "[^.?!(]*\\(?" +
+                "([Рр]ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?)?\\)?" +  //Optional figure links
+                "[^(.?!]*\\(?" +                                                //Repeats the code above. Was trying to use ()*, but this highlights Figure links better
+                "([Рр]ис[унк]*.?\\s*(\\d{1,2}),?\\s?и?\\s?(\\d{1,2})?)?\\)?" +
+                "[^.?!]*[.!?]";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(file);
 
@@ -61,9 +73,52 @@ public class HTMLParser {
             if (matcher.group() != null) { stringsWithFigureWords.add(matcher.group()); }
         }
 
-        for (String stringsWithFigureWord : stringsWithFigureWords) {
-            System.out.println(stringsWithFigureWord);
+        stringsWithFigureWords = getRidOfHMTLTags(stringsWithFigureWords);
+        System.out.println();
+        for (String s : stringsWithFigureWords) {
+            System.out.println(s);
         }
+    }
+
+    private static List<String> getRidOfHMTLTags(List<String> stringsWithFigureWords) {
+        StringBuilder sb;
+        for (int i = 0; i < stringsWithFigureWords.size(); i++) {
+            if (stringsWithFigureWords.get(i).contains("&nbsp;")) {
+                sb = new StringBuilder();
+                String[] s = stringsWithFigureWords.get(i).split("&nbsp;");
+                for (String value : s) {
+                    sb.append(value);
+                }
+                stringsWithFigureWords.set(i, sb.toString());
+            }
+            if (stringsWithFigureWords.get(i).contains("<span>")) {
+                sb = new StringBuilder();
+                String[] s = stringsWithFigureWords.get(i).split("<span>");
+                for (String value : s) {
+                    sb.append(value);
+                }
+                stringsWithFigureWords.set(i, sb.toString());
+            }
+
+            if (stringsWithFigureWords.get(i).contains("<sub>")) {
+                sb = new StringBuilder();
+                String[] s = stringsWithFigureWords.get(i).split("<sub>");
+                for (String value : s) {
+                    sb.append(value);
+                }
+                stringsWithFigureWords.set(i, sb.toString());
+            }
+            if (stringsWithFigureWords.get(i).contains("</sub>")) {
+                sb = new StringBuilder();
+                String[] s = stringsWithFigureWords.get(i).split("</sub>");
+                for (String value : s) {
+                    sb.append(value);
+                }
+                stringsWithFigureWords.set(i, sb.toString());
+            }
+        }
+
+        return stringsWithFigureWords;
     }
 
     private static String readFile() {
