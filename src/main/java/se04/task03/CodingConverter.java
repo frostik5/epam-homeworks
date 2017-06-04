@@ -11,7 +11,7 @@ public class CodingConverter {
 
     CodingConverter() {
         readFileFromResources();
-        convertToUTF16();
+        convertFileToUTF16();
     }
 
     private void readFileFromResources() {
@@ -27,20 +27,12 @@ public class CodingConverter {
         file = sb.toString();
     }
 
-    public void printFile() {
-        if (!file.isEmpty()) {
-            System.out.println(file);
-        } else {
-            System.out.println("---File is empty!---");
-        }
-    }
-
     private static InputStreamReader getResource(String name) throws UnsupportedEncodingException {
         Class<CodingConverter> cls = CodingConverter.class;
         return new InputStreamReader(cls.getResourceAsStream(name), "UTF-8");
     }
 
-    private void convertToUTF16() {
+    private void convertFileToUTF16() {
         try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("src/out/se04_task03_UTF-16_file.txt"), "UTF-16"))) {
             writer.write(file);
         } catch (IOException e) {
@@ -49,8 +41,16 @@ public class CodingConverter {
         System.out.println("---File successfully converted to UTF-16!---");
     }
 
+    public void printInputFile() {
+        if (!file.isEmpty()) {
+            System.out.println(file);
+        } else {
+            System.out.println("---File is empty!---");
+        }
+    }
+
     public static void main(String[] args) {
         CodingConverter cc = new CodingConverter();
-        //cc.printFile();
+        cc.printInputFile(  );
     }
 }
