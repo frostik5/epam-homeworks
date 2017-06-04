@@ -9,7 +9,7 @@ import java.util.*;
  * Приложение должно представлять собой перечень вопросов под номерами (на английском или русском соответственно).
  * Выбрав номер вопроса пользователь может узнать ответ на него.
  */
-public class QuizApp {
+public class QuizzApp {
     private static Locale[] locales = {
             Locale.ENGLISH,
             Locale.forLanguageTag("ru")
