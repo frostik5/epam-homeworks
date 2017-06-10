@@ -1,7 +1,6 @@
 package se05.task01;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
@@ -37,7 +36,6 @@ public class SystemExplorer {
         getCurrentDir();
     }
 
-    // Необходимо добавить ортировку по файлам и папкам
     public static void dir() throws UnsupportedEncodingException {
         List<File> files;
         files = new ArrayList<>(Arrays.asList(currentDir.listFiles()));
