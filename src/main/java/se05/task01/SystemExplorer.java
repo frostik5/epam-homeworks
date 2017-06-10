@@ -48,7 +48,6 @@ public class SystemExplorer {
 
         int filesCounter = 0;
         int foldersCounter = 0;
-        boolean noFolders, noFiles;
         files.sort(new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
