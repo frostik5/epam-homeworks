@@ -31,6 +31,7 @@ public class AppStart {
                             case "?":    showHelp(); break;
                             case "exit":
                             case "quit": System.exit(0); break;
+                            default:     System.err.println("--> Incorrect command! Try \"help\" or \"?\" to watch the full list of supporterd commands."); break;
                         }
                     } else if (words.length > 1) {
                         fileSB = new StringBuilder();

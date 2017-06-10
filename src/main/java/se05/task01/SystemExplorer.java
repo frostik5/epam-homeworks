@@ -48,14 +48,33 @@ public class SystemExplorer {
             return;
         }
 
+        int filesCounter = 0;
+        int foldersCounter = 0;
+        files.sort(new Comparator<File>() {
+            @Override
+            public int compare(File o1, File o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
+        System.out.println("Dirs:");
         for (File f : files) {
-            if (f.isFile()) {
-                System.out.println("File: " + f.getName() + "\t\t" + f.length() + " bytes");
-            } else {
-                System.out.println("Dir: " + f.getName());
+            if (f.isDirectory()) {
+                System.out.println("\t" + f.getName());
+                foldersCounter++;
             }
         }
-        System.out.println(System.lineSeparator() + "Total items: " + files.size() );
+
+        System.out.println("Files:");
+        for (File f : files) {
+            if (f.isFile()) {
+                System.out.println("\t" + f.getName() + "\t" + f.length() + " bytes");
+                filesCounter++;
+            }
+        }
+        System.out.println("Total items: " + files.size());
+        System.out.println("Files: " + filesCounter);
+        System.out.println("Folders: " + foldersCounter);
         getCurrentDir();
     }
 
@@ -126,7 +145,7 @@ public class SystemExplorer {
             try {
                 throw new FileNotFoundException(file.getName());
             } catch (FileNotFoundException e) {
-                System.err.println("--> File/folder " + name + " not found!");
+                System.err.println("--> File/folder \"" + name + "\" not found!");
             }
         }
         getCurrentDir();
