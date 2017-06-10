@@ -36,7 +36,7 @@ public class SystemExplorer {
         getCurrentDir();
     }
 
-    public static void dir() throws UnsupportedEncodingException {
+    public static void dir() {
         List<File> files;
         files = new ArrayList<>(Arrays.asList(currentDir.listFiles()));
 
@@ -56,7 +56,7 @@ public class SystemExplorer {
             }
         });
 
-        System.out.println("Dirs:");
+        System.out.println("Folders:");
         for (File f : files) {
             if (f.isDirectory()) {
                 System.out.println("\t" + f.getName());
@@ -72,8 +72,8 @@ public class SystemExplorer {
             }
         }
         System.out.println("* Total items: " + files.size());
-        System.out.println("* Files: " + filesCounter);
         System.out.println("* Folders: " + foldersCounter);
+        System.out.println("* Files: " + filesCounter);
         getCurrentDir();
     }
 

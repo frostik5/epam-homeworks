@@ -3,12 +3,11 @@ package se05.task01;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import static se05.task01.SystemExplorer.*;
 
 public class AppStart {
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
        executeUserDialogue();
     }
 
