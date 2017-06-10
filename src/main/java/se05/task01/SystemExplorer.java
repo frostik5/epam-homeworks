@@ -50,6 +50,7 @@ public class SystemExplorer {
 
         int filesCounter = 0;
         int foldersCounter = 0;
+        boolean noFolders, noFiles;
         files.sort(new Comparator<File>() {
             @Override
             public int compare(File o1, File o2) {
@@ -72,9 +73,9 @@ public class SystemExplorer {
                 filesCounter++;
             }
         }
-        System.out.println("Total items: " + files.size());
-        System.out.println("Files: " + filesCounter);
-        System.out.println("Folders: " + foldersCounter);
+        System.out.println("* Total items: " + files.size());
+        System.out.println("* Files: " + filesCounter);
+        System.out.println("* Folders: " + foldersCounter);
         getCurrentDir();
     }
 

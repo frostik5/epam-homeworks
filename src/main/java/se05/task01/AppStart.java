@@ -65,7 +65,7 @@ public class AppStart {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.print("Input error! Please try again: ");
         }
     }
 
