@@ -22,3 +22,4 @@ List\<MedicalStaff> list2 = new ArrayList\<Doctor>();   |         | X           
 List\<Doctor> list3 = new ArrayList\<MedicalStaff>();   |         | X           | Даже если бы связи учитывались, это бы не прошло - Doctor наследник MedicalStaff           
 List\<Object> list4 = new ArrayList\<Doctor>();         |         | X           | Связи наследования в Дженериках не учитываются. Типы должны быть одинаковыми.    
 List\<Object> list5 = new ArrayList\<Object();          | X       |             | ArrayList реализует интерфейс List. Типы одинаковые.
+
