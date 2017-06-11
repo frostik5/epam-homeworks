@@ -1,7 +1,6 @@
-Изучите классы реализации коллекций и заполните следующую таблицу
------------------------------------------------------------------
+##### Изучите классы реализации коллекций и заполните следующую таблицу
 
-                      | Ordering |  Random Access | Key-Value Pairs | Allows Duplicates | Allows Null Values | Thread Safe | Blocking Operations
+Collections           | Ordering |  Random Access | Key-Value Pairs | Allows Duplicates | Allows Null Values | Thread Safe | Blocking Operations
 ----------------------|----------|----------------|-----------------|-------------------|--------------------|-------------|--------------------
 ArrayList             | Yes      | Yes            | No              | Yes               | Yes                | No          | No
 LinkedList            | Yes      | No             | No              | Yes               | Yes                | No          | No
