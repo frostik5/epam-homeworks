@@ -17,7 +17,6 @@ HeadDoctor doctor5 = new Object();                  |         | X           | О
 Doctor doctor6  = new Nurse();                      |         | X           | У Doctor и Nurse общий родитель - MedicalStaff. Но инициализировать один класс другим нельзя.           
 Nurse nurse = new Doctor();                         |         | X           | То же, что и выше.           
 Object object2 = new Nurse();                       | X       |             | Nurse - наследница класса Object, поэтому то же что и выше.      
-                                                    |         |             |
 List<Doctor> list1= new ArrayList<Doctor>();        | X       |             | ArrayList реализует интерфейс List. Типы одинаковые.            
 List<MedicalStaff> list2 = new ArrayList<Doctor>(); |         | X           | Связи наследования в Дженериках не учитываются. Типы должны быть одинаковыми.           
 List<Doctor> list3 = new ArrayList<MedicalStaff>(); |         | X           | Даже если бы связи учитывались, это бы не прошло - Doctor наследник MedicalStaff           
