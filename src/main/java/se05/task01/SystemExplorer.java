@@ -40,7 +40,7 @@ public class SystemExplorer {
         List<File> fileList;
         File[] files = currentDir.listFiles();
         if (files == null) {
-            System.err.println("--> Couldn't get list of files!");
+            System.err.println("--> Couldn't get list of files/folders!");
             getCurrentDir();
             return;
         } else if (files.length == 0) {
