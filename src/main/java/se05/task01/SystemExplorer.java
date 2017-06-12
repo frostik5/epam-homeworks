@@ -37,26 +37,26 @@ public class SystemExplorer {
     }
 
     public static void dir() {
-        List<File> files;
-        files = new ArrayList<>(Arrays.asList(currentDir.listFiles()));
-
-        if (files.size() == 0) {
+        List<File> fileList;
+        File[] files = currentDir.listFiles();
+        if (files == null) {
+            System.err.println("--> Couldn't get list of files!");
+            getCurrentDir();
+            return;
+        } else if (files.length == 0) {
             System.out.println("--> Folder is empty!");
             getCurrentDir();
             return;
+        } else {
+            fileList = new ArrayList<>(Arrays.asList(files));
         }
 
         int filesCounter = 0;
         int foldersCounter = 0;
-        files.sort(new Comparator<File>() {
-            @Override
-            public int compare(File o1, File o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        fileList.sort(Comparator.naturalOrder());
 
         System.out.println("Folders:");
-        for (File f : files) {
+        for (File f : fileList) {
             if (f.isDirectory()) {
                 System.out.println("\t" + f.getName());
                 foldersCounter++;
@@ -64,13 +64,13 @@ public class SystemExplorer {
         }
 
         System.out.println("Files:");
-        for (File f : files) {
+        for (File f : fileList) {
             if (f.isFile()) {
                 System.out.println("\t" + f.getName() + "\t" + f.length() + " bytes");
                 filesCounter++;
             }
         }
-        System.out.println("* Total items: " + files.size());
+        System.out.println("* Total items: " + fileList.size());
         System.out.println("* Folders: " + foldersCounter);
         System.out.println("* Files: " + filesCounter);
         getCurrentDir();
@@ -81,16 +81,16 @@ public class SystemExplorer {
             getCurrentDir();
             return;
         }
-        File dir = new File(currentDir.getAbsolutePath() + "/" + name);
-        if (dir.exists()) {
+        File dir = new File(currentDir.getAbsolutePath() + sep + name);
+        if (dir.exists() && dir.isDirectory()) {
             try {
-                throw new FileAlreadyExistsException(dir.getAbsolutePath());
+                throw new FileAlreadyExistsException(dir.getName());
             } catch (FileAlreadyExistsException e) {
                 System.err.println("--> Folder \"" + name + "\" already exists!");
             }
         } else {
-            dir.mkdir();
-            System.out.println("--> Folder \"" + name + "\" created!");
+            if (dir.mkdir()) System.out.println("--> Folder \"" + name + "\" created!");
+            else             System.err.println("--> Couldn't create folder \"" + name + "\"!");
         }
         getCurrentDir();
     }
@@ -105,8 +105,8 @@ public class SystemExplorer {
             if (file.exists() && file.isFile()) {
                 throw new FileAlreadyExistsException(file.getName());
             } else if (name.matches("[\\w]+(\\.[\\w]+)+")) {
-                file.createNewFile();
-                System.out.println("--> File \"" + name + "\" created!");
+                if (file.createNewFile()) System.out.println("--> File \"" + name + "\" created!");
+                else                      System.out.println("--> Couldn't create file \"" + name + "\"!");
             } else {
                 System.err.println("--> Wrong file name input!");
             }
@@ -122,8 +122,8 @@ public class SystemExplorer {
         String[] illegalChars = {"\\", "/", ":", "*", "?", "\"", "<", ">", "|"};
         for (String ch : illegalChars) {
             if (name.contains(ch)) {
-                if (dir)    System.err.println("--> Folder name should not contains the following symbols: \\ / : * ? \" < > |");
-                else        System.err.println("--> File name should not contains the following symbols: \\ / : * ? \" < > |");
+                if (dir)    System.err.println("--> Folder name should not contain the following symbols: \\ / : * ? \" < > |");
+                else        System.err.println("--> File name should not contain the following symbols: \\ / : * ? \" < > |");
                 return true;
             }
         }
@@ -131,14 +131,16 @@ public class SystemExplorer {
     }
 
     public static void delete(String name) {
+        if (containsIllegalChars(name, true)) return;
         if (containsIllegalChars(name, false)) return;
+
         File file = new File(currentDir.getAbsolutePath() + sep + name);
         if (file.exists() && file.isFile()) {
-            file.delete();
-            System.out.println("--> File \"" + name + "\" deleted!");
+            if (file.delete()) System.out.println("--> File \"" + name + "\" deleted!");
+            else               System.out.println("--> Couldn't delete file \"" + name + "\"!");
         } else if (file.exists() && file.isDirectory()) {
-            file.delete();
-            System.out.println("--> Folder \"" + name + "\" deleted!");
+            if (file.delete()) System.out.println("--> Folder \"" + name + "\" deleted!");
+            else               System.out.println("--> Couldn't delete folder \"" + name + "\"!");
         } else {
             try {
                 throw new FileNotFoundException(file.getName());

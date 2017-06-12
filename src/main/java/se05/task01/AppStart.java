@@ -42,29 +42,29 @@ public class AppStart {
                                 fileSB.append(words[i]);
                             }
                         }
+
                         String file = fileSB.toString();
                         String text;
-
                         switch (command) {
                             case "cd":      cd(file); break;
                             case "mkdir":   mkDir(file); break;
                             case "create":  create(file); break;
                             case "delete":  delete(file); break;
                             case "open":    open(file); break;
-                            case "setdir":  setCurrentDir(words[1]); break;
+                            case "setdir":  setCurrentDir(file); break;
                             case "rewrite": text = typeText(reader); rewrite(file, text); break;
                             case "addto":   text = typeText(reader); addTo(file, text); break;
                             default:        System.err.println("--> Incorrect command! Try \"help\" or \"?\" to watch the full list of supporterd commands."); break;
                         }
                     } else {
-                        System.err.print("Input error! Please try again: ");
+                        System.err.print("--> Input error! Please try again: ");
                     }
                 } else {
-                    System.err.print("Input error! Please try again: ");
+                    System.err.print("--> Input error! Please try again: ");
                 }
             }
         } catch (IOException e) {
-            System.err.print("Input error! Please try again: ");
+            System.err.print("--> Input error! Please try again: ");
         }
     }
 
@@ -74,7 +74,7 @@ public class AppStart {
         System.out.println("--> Please enter your text here (type \"end\" on a new line to stop):");
         try {
             while (true) {
-                if ("end".equals(text = reader.readLine())) break;
+                if ("end".equals((text = reader.readLine()).toLowerCase())) break;
                 else  {
                     textSB.append(text);
                     textSB.append(System.lineSeparator());
