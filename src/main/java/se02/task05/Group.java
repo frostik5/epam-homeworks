@@ -16,10 +16,10 @@ public class Group {
     }
 
     public void addStudent(Student student) {
-        Random r = new Random(), intOrDouble = new Random();
+        Random r = new Random();
         List<Mark> marks = new ArrayList<>(TOTAL_MARKS);
 
-        if (intOrDouble.nextBoolean()) {
+        if (subject.isIntMark()) {
             for(int i = 0; i < TOTAL_MARKS; i++) {
                 marks.add(new Mark<>(r.nextInt(4) + 2));
             }
@@ -37,7 +37,10 @@ public class Group {
     }
 
     public List<Student> getStudents() {
-        return new ArrayList<>(studentsAndMarks.keySet());
+        List<Student> students = new ArrayList<>();
+        students.addAll(studentsAndMarks.keySet());
+
+        return students;
     }
 
     public Map<Student, List<Mark>> getStudentsAndMarks() {
